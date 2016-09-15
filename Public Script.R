@@ -58,10 +58,10 @@ summary (sleep_HCP$rel.length.cen<-sleep_HCP$relation.length-mean(sleep_HCP$rela
 summary (sleep_HCP$AAQ_avoidance.cen<-sleep_HCP$AAQ_avoidance-mean(sleep_HCP$AAQ_avoidance))
 summary (sleep_HCP$AAQ_ambivalence.cen<-sleep_HCP$AAQ_ambivalence-mean(sleep_HCP$AAQ_ambivalence))
 summary (empty_HCP <- lmer (sleep.efficiency ~ 1 + (1 | participant), data=sleep_HCP))
-summary (main_HCP <- lmer (sleep.efficiency ~ 1 + scent.type + order + rel.length.cen + rel.sat.cen + AAQ_avoidance.cen + AAQ_ambivalence.cen + stress.cen + birth.control + (1 + scent.type + stress.cen | participant), data=sleep_HCP))
+summary (full_HCP <- lmer (sleep.efficiency ~ 1 + scent.type + order + rel.length.cen + rel.sat.cen + AAQ_avoidance.cen + AAQ_ambivalence.cen + stress.cen + birth.control + (1 + scent.type + stress.cen | participant), data=sleep_HCP))
 
 #deviance reduction
-anova(main_HCP, empty_HCP)
+anova(main_HCP, full_HCP)
 
 #run supplementary rested and sleep quality composite analysis
 # exclude variables participant 19 who completed incorrect index
@@ -74,23 +74,23 @@ summary (sleep_19$rel.length.cen<-sleep_19$relation.length-mean(sleep_19$relatio
 summary (sleep_19$AAQ_avoidance.cen<-sleep_19$AAQ_avoidance-mean(sleep_19$AAQ_avoidance))
 summary (sleep_19$AAQ_ambivalence.cen<-sleep_19$AAQ_ambivalence-mean(sleep_19$AAQ_ambivalence))
 summary (empty3_19 <- lmer (perceived.sleep ~ 1 + (1 | participant), data=sleep_19))
-summary (main3_19 <- lmer (perceived.sleep ~ 1 + scent.type + order + rel.length.cen + rel.sat.cen + AAQ_avoidance.cen + AAQ_ambivalence.cen + stress.cen + birth.control + (1 + scent.type + stress.cen | participant), data=sleep_19))
+summary (full3_19 <- lmer (perceived.sleep ~ 1 + scent.type + order + rel.length.cen + rel.sat.cen + AAQ_avoidance.cen + AAQ_ambivalence.cen + stress.cen + birth.control + (1 + scent.type + stress.cen | participant), data=sleep_19))
 
 #deviance reduction
-anova(main3_19, empty3_19)
+anova(full3_19, empty3_19)
 
 
 #run rested and sleep quality composite analysis on HCP (high compliance participants)
 # exclude variables participant 19 (and 11, 25, 26, 31, 38, 3, 5, 7, 15, 23)
 summary (empty_HCP <- lmer (perceived.sleep ~ 1 + (1 | participant), data=sleep_HCP))
-summary (main_HCP <- lmer (perceived.sleep ~ 1 + scent.type + order + rel.length.cen + rel.sat.cen + AAQ_avoidance.cen + AAQ_ambivalence.cen + stress.cen + birth.control + (1 + scent.type + stress.cen | participant), data=sleep_HCP))
+summary (full_HCP <- lmer (perceived.sleep ~ 1 + scent.type + order + rel.length.cen + rel.sat.cen + AAQ_avoidance.cen + AAQ_ambivalence.cen + stress.cen + birth.control + (1 + scent.type + stress.cen | participant), data=sleep_HCP))
 
 #deviance reduction
-anova(main_HCP, empty_HCP)
+anova(full_HCP, empty_HCP)
 
 ###other analyses###
 #run rested and sleep quality seperately
-summary (one4_19 <- lmer (Sleep.quality ~ 1 + scent.type + (1 + scent.type | participant), data=sleep_19))
+summary (one4_19 <- lmer (sleep.quality ~ 1 + scent.type + (1 + scent.type | participant), data=sleep_19))
 summary (one5_19 <- lmer (rested ~ 1 + scent.type + (1 + scent.type | participant), data=sleep_19))
 
 #run rested and sleep EFFICIENCY on LCP (low compliance participants)
@@ -103,10 +103,9 @@ summary (sleep_LCP$rel.sat.cen<-sleep_LCP$rel.sat-mean(sleep_LCP$rel.sat))
 summary (sleep_LCP$rel.length.cen<-sleep_LCP$relation.length-mean(sleep_LCP$relation.length))
 summary (sleep_LCP$AAQ_avoidance.cen<-sleep_LCP$AAQ_avoidance-mean(sleep_LCP$AAQ_avoidance))
 summary (sleep_LCP$AAQ_ambivalence.cen<-sleep_LCP$AAQ_ambivalence-mean(sleep_LCP$AAQ_ambivalence))
-summary (sleep_LCP$stress.4days.cen<-sleep_LCP$stress.4days-mean(sleep_LCP$stress.4days))
 summary (empty_LCP <- lmer (sleep.efficiency ~ 1 + (1 | participant), data=sleep_LCP))
 summary (one_LCP <- lmer (sleep.efficiency ~ 1 + scent.type + (1 + scent.type | participant), data=sleep_LCP))
-summary (main_LCP <- lmer (sleep.efficiency ~ 1 + scent.type + order + rel.length.cen + rel.sat.cen + AAQ_avoidance.cen + AAQ_ambivalence.cen + stress.cen + stress.4days.cen + birth.control + (1 + scent.type + stress.cen | participant), data=sleep_LCP))
+summary (full_LCP <- lmer (sleep.efficiency ~ 1 + scent.type + order + rel.length.cen + rel.sat.cen + AAQ_avoidance.cen + AAQ_ambivalence.cen + stress.cen + birth.control + (1 + scent.type + stress.cen | participant), data=sleep_LCP))
 
 #run supplementary sleep efficiency analysis those unaware of scent order
 summary (sleep_12 <- subset(sleep, sleep$correct.guess.shirt == 0))
@@ -116,9 +115,8 @@ summary (sleep_12$rel.sat.cen<-sleep_12$rel.sat-mean(sleep_12$rel.sat))
 summary (sleep_12$rel.length.cen<-sleep_12$relation.length-mean(sleep_12$relation.length))
 summary (sleep_12$AAQ_avoidance.cen<-sleep_12$AAQ_avoidance-mean(sleep_12$AAQ_avoidance))
 summary (sleep_12$AAQ_ambivalence.cen<-sleep_12$AAQ_ambivalence-mean(sleep_12$AAQ_ambivalence))
-summary (sleep_12$stress.4days.cen<-sleep_12$stress.4days-mean(sleep_12$stress.4days))
 summary (empty_12 <- lmer (sleep.efficiency ~ 1 + (1 | participant), data=sleep_12))
-summary (main_12 <- lmer (sleep.efficiency ~ 1 + scent.type + order + rel.length.cen + rel.sat.cen + AAQ_avoidance.cen + AAQ_ambivalence.cen + stress.cen + stress.4days.cen + birth.control + (1 + scent.type + stress.cen | participant), data=sleep_12))
+summary (full_12 <- lmer (sleep.efficiency ~ 1 + scent.type + order + rel.length.cen + rel.sat.cen + AAQ_avoidance.cen + AAQ_ambivalence.cen + stress.cen + birth.control + (1 + scent.type + stress.cen | participant), data=sleep_12))
 
 #deviance reduction
-anova(main_12, empty_12)
+anova(full_12, empty_12)
