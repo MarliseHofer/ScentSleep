@@ -5,7 +5,7 @@ This repository contains 5 folders associated with the paper "The Scent of a Goo
 1. [Session One - Men](https://github.com/MarliseHofer/StressSmell/tree/master/Women%20-%20Session%20One)
   - contains a protocol and take home instructions for shirt wearing
   - this session involved training on scent collection protocol
-2. [Session Two - Men](https://github.com/MarliseHofer/StressSmell/tree/master/Women%20-%20Session%20Two)
+2. [Session Two - Men](https://github.com/MarliseHofer/ScentSleep/tree/master/Session%202%20-%20Men)
   - contains a protocol and compliance and demographic questions 
   - this session involved return of the worn shirt
 3. [Session One - Women](https://github.com/MarliseHofer/ScentSleep/tree/master/Session%201%20-%20Women)
