@@ -11,7 +11,7 @@ This repository contains 5 folders associated with the paper "The Scent of a Goo
 3. [Session One - Women](https://github.com/MarliseHofer/ScentSleep/tree/master/Session%201%20-%20Women)
   - contains a protocol a sleep diary and several questionnaires
   - this session involved training on sleep procedures and survey completion
-4. [Session Two - Women](https://github.com/MarliseHofer/StressSmell/tree/master/Men%20-%20Session%20Two)
+4. [Session Two - Women](https://github.com/MarliseHofer/ScentSleep/tree/master/Session%202%20-%20Women)
   - contains a protocol and compliance and demographic questions 
   - this session involved return of the sleep watch
 5. [Data and Code](https://github.com/MarliseHofer/StressSmell/tree/master/Data%20and%20Syntax)
