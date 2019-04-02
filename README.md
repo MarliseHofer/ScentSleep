@@ -18,6 +18,6 @@ This repository contains 5 folders associated with the paper "The Scent of a Goo
   - contains a CSV datafile
   - one R script with calcultions reported in the manuscript
   - one R script with calculations reported in the supplementary materials
-*These material are representative of what was given to participants across all samples. However, questions & materials were slightly altered across the three samples. For example:
+These material are representative of what was given to participants across all samples. However, questions & materials were slightly altered across the three samples. For example:
   1) In sample 2, men and women functioned as both sleepers and scent donors. In sample 2, all couples had three lab sessions corresponding to Session 1- Men, Session 2 - Men & Session 1 - Women (combined into one session), and Session 2 - Women.
   2) In sample 3, stranger scents were created by male participants. To accomplish this, men were asked to to create two worn shirts (for a total of 48 hours of shirt wearing).
