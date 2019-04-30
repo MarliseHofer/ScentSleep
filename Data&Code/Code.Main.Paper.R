@@ -11,7 +11,7 @@ options(warn = -1)
 
 #load package for data set information
 #if it is run a second time --> restart R (session / restart R menu) (otherwise error message)
-install.packages("~/Desktop/Data&Scripts/sleepsmellpackage_1.0.tar.gz", repos = NULL, type="source")
+install.packages("sleepsmellpackage_1.0.tar.gz", repos = NULL, type="source")
 library(sleepsmellpackage)
 
 #Information on data used in analysis

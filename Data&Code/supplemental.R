@@ -1,4 +1,9 @@
-#Library for supplemental -- libraries from main R file also required
+#load packages
+library(lme4)
+library(lmerTest)
+library(psych)
+library(foreign)
+library(tidyverse)
 library(plyr)
 
 #disable scientific notation
