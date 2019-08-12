@@ -27,6 +27,11 @@ data_wide <- read.csv("wide-sleepandsmell.csv")
 #disable scientific notation
 options(scipen=999)
 
+#create scent duration variable
+data$scent.duration <- NA
+data[which(data$night==1 | data$night==3), "scent.duration"] <- -1
+data[which(data$night==2 | data$night==4), "scent.duration"] <- 1
+
 #center predictor variable creation
 data$RQ.overall_grandmean <- I(data$RS_overall - mean(data$RS_overall))
 data$rel.length_grandmean <- I(data$rel.length - mean(data$rel.length))
@@ -74,10 +79,12 @@ View(Participant.Demographics)
 rm(info)
 
 #correlation of perceived sleep quality items
-cor.test(data$sleep.quality.SR, data$rested.SR)
+#accounting for dependant nature of the data
+library(rmcorr)
+rmcorr(participant.id, sleep.quality.SR, rested.SR, data)
 
 #correlation of perceived stress items
-cor.test(data$stress.today, data$stress.tomorrow)
+rmcorr(participant.id, stress.today, stress.tomorrow, data)
 
 #Mean stress by night
 detach(package:plyr)
@@ -160,7 +167,9 @@ summary(lmer (perceived.sleep.quality ~ 1 +
 rm(SQO,SQP, perceived.sleep.quality, perceived.sleep.quality.2)
 
 #Correlation between perceived sleep quality and sleep efficiency
-print(corr.test(data$perceived.sleep.quality, data$sleep.efficiency, ci=TRUE), short=FALSE)
+#accounting for dependant nature of the data
+library(rmcorr)
+rmcorr(participant.id,sleep.efficiency, perceived.sleep.quality, data)
 
 ##Table 2. Participants’ beliefs about scent exposure (shirt: 0 = control, 1 = partner)
 
