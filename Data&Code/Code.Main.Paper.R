@@ -134,8 +134,13 @@ SEP <- sd(data_wide$sleep.efficiency.partner, na.rm=TRUE)
 summary(sleep.efficiency <- lmer (sleep.efficiency ~ shirt	+ (1 + shirt | participant.id), data=data))
 confint(sleep.efficiency, method="boot", nsim = 1000)
 
+#Final Sleep Efficiency Model & 95% CI
+summary(final <-lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex*shirt 
+											 + (1 + shirt| participant.id), data=data))
+confint(final, method="boot", nsim = 1000)
+
 #clean up environment
-rm(sleep.efficiency,SEO,SEP)
+rm(sleep.efficiency,SEO,SEP,final)
 
 #Perceived Sleep Quality Means
 colMeans(data_wide[,12:13], na.rm=TRUE)
