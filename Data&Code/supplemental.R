@@ -1,3 +1,7 @@
+#This document is code used to generate numbers reported in the 
+#Supplemental Online Material (SOM-R) for
+#The Scent of a Good Night’s Sleep: Olfactory Cues of a Romantic Partner Increase Sleep Efficiency
+
 #load packages
 library(lme4)
 library(lmerTest)
@@ -282,26 +286,3 @@ summary(pleasant2 <- lmer(sleep.efficiency ~ shirt.2 + pleasantness.odor_grandme
 confint(pleasant2, method="boot", nsim = 1000)
 
 rm(pleasant, pleasant2, Sample3)
-
-#-----------------------------------------#
-#Combined Data - Relaxed Threshold
-##Sleep Efficiency
-
-#Table S2
-summary(sex <-lmer (sleep.efficiency ~ shirt + sex + sex*shirt +
-                      (1 + shirt| participant.id), data=data))
-confint(sex, method="boot", nsim = 1000)
-
-#ICC 
-summary(lmer (sleep.efficiency ~ 1 +
-								(1| participant.id), data=data))
-(19.55/(19.55+76.45))
-#0.20
-
-#simple slope for sleep efficiency in supplemental
-data$sex.2 <- ifelse(data$sex == 0, 1, 0)
-summary(sex2 <- lmer (sleep.efficiency ~ shirt + sex.2 + sex.2*shirt + 
-                        (1 + shirt| participant.id), data=data))
-confint(sex2, method="boot", nsim = 1000)
-rm(sex,sex2)
-

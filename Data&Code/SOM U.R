@@ -1,12 +1,10 @@
-#SOM-U
+#This document is code used to generate numbers reported in the 
+#Supplemental Online Material (SOM-U) for
+#The Scent of a Good Night’s Sleep: Olfactory Cues of a Romantic Partner Increase Sleep Efficiency
 
 #Results from each model tested to reach final model
-#Results of Interim Models for forward stepping methods & Results from backward stepping method 
-#sleep efficiency
-summary(lmer (sleep.efficiency ~ shirt +
-								(1 + shirt | participant.id), data=data))
-##Control for individual variables and their interactions with scent
-#level 1 variables (daily stress & weeknight)
+#Results of Interim Models for forward stepping methods & backward stepping method 
+
 #stress at level 1 (daily level)
 summary(stress <-lmer (sleep.efficiency ~ shirt + stress.2.cen*shirt +
 											 	(1 + shirt| participant.id), data=data))
@@ -40,9 +38,9 @@ summary(attachment <-lmer (sleep.efficiency ~ shirt + scent.duration*shirt
 confint(attachment, method="boot", nsim = 1000)
 
 #sex
-summary(order <- lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex*shirt  
+summary(sex <- lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex*shirt  
 											 	+ (1 + shirt| participant.id), data=data))
-confint(order, method="boot", nsim = 1000)
+confint(sex, method="boot", nsim = 1000)
 
 #relationship length
 summary(RL <-lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex*shirt 
@@ -60,17 +58,15 @@ summary(order <- lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex*shi
 confint(order, method="boot", nsim = 1000)
 
 #stress at level 2 (trait level)
-summary(lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex*shirt 
+summary(st <- lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex*shirt 
 							+ stress.2.grandcen*shirt + (1 + shirt| participant.id), data=data))
-confint(control, method="boot", nsim = 1000)
+confint(st, method="boot", nsim = 1000)
 
-#final model used in paper
-summary(Table1 <-lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex*shirt 
-							+ (1 + shirt| participant.id), data=data))
-confint(Table1, method="boot", nsim = 1000)
+#clean up
+rm(st, order, RQ, RL, sex, attachment, control, weeknight, duration, stress)
 
 #all predictors simultaneously (backwards stepwise method)
-summary(full <-lmer (sleep.efficiency ~ shirt  + scent.duration*shirt + night +
+summary(lmer (sleep.efficiency ~ shirt  + scent.duration*shirt + night +
 										 +	sex*shirt + shirt*condition  + RQ.overall_grandmean*shirt 
 										 + rel.length_grandmean*shirt + AAQ_ambivalence_grandmean*shirt 
 										 + AAQ_avoidance_grandmean*shirt + control*shirt + stress.2.cen*shirt 
@@ -82,12 +78,8 @@ summary(final <-lmer (sleep.efficiency ~ shirt  + scent.duration*shirt
 										 + (1 + shirt| participant.id), data=data))
 confint(final, method="boot", nsim = 1000)
 
-#Results from each model tested to reach final model
-#percieved sleep quality
-summary(lmer (perceived.sleep.quality ~ shirt +
-								(1 + shirt | participant.id), data=data))
-##Control for individual variables and their interactions with scent
-#level 1 variables (daily stress & weeknight)
+#Results from each model tested to reach final percieved sleep quality model
+
 #stress at level 1 (daily level)
 summary(stress <-lmer (perceived.sleep.quality ~ shirt + stress.2.cen*shirt +
 											 	(1 + shirt| participant.id), data=data))
@@ -104,14 +96,14 @@ summary(weeknight <-lmer (perceived.sleep.quality ~ shirt + stress.2.cen
 confint(weeknight, method="boot", nsim = 1000)
 
 #weeknight remove interation
-summary(weeknight <-lmer (perceived.sleep.quality ~ shirt + stress.2.cen 
+summary(weeknight2 <-lmer (perceived.sleep.quality ~ shirt + stress.2.cen 
 													+ night_cen + (1 + shirt| participant.id), data=data))
-confint(weeknight, method="boot", nsim = 1000)
+confint(weeknight2, method="boot", nsim = 1000)
 
 #level 2 variables
 #control scent type
 summary(control <-lmer (perceived.sleep.quality ~ shirt + stress.2.cen + night_cen
-												+ control*scent +	(1 + shirt| participant.id), data=data))
+												+ control*shirt +	(1 + shirt| participant.id), data=data))
 confint(control, method="boot", nsim = 1000)
 
 #AAQ
@@ -121,9 +113,9 @@ summary(attachment <-lmer (perceived.sleep.quality ~ shirt + stress.2.cen + nigh
 confint(attachment, method="boot", nsim = 1000)
 
 #sex
-summary(order <- lmer (perceived.sleep.quality ~ shirt + stress.2.cen + night_cen
+summary(sex <- lmer (perceived.sleep.quality ~ shirt + stress.2.cen + night_cen
 											 + sex*shirt + (1 + shirt| participant.id), data=data))
-confint(order, method="boot", nsim = 1000)
+confint(sex, method="boot", nsim = 1000)
 
 #relationship length
 summary(RL <-lmer (perceived.sleep.quality ~ shirt + stress.2.cen + night_cen
@@ -141,17 +133,15 @@ summary(order <- lmer (perceived.sleep.quality ~ shirt + stress.2.cen + night_ce
 confint(order, method="boot", nsim = 1000)
 
 #stress at level 2 (trait level)
-summary(lmer (perceived.sleep.quality ~ shirt + stress.2.cen + night_cen
+summary(stress2 <-lmer (perceived.sleep.quality ~ shirt + stress.2.cen + night_cen
 							+ stress.2.grandcen*shirt + (1 + shirt| participant.id), data=data))
-confint(control, method="boot", nsim = 1000)
+confint(stress2, method="boot", nsim = 1000)
 
-#final model used in paper
-summary(lmer (perceived.sleep.quality ~ shirt + night_cen + stress.2.cen 
-							+ (1 + shirt| participant.id), data=data))
-confint(control, method="boot", nsim = 1000)
+#clean up
+rm(order, RQ, RL, sex, attachment, control, weeknight, duration, stress, stress2)
 
 #all predictors simultanioulsy (backwards stepwise method)
-summary(full <-lmer (perceived.sleep.quality ~ shirt  + scent.age*shirt + 
+summary(lmer (perceived.sleep.quality ~ shirt  + scent.age*shirt + 
 										 	+	sex*shirt + shirt*condition  + RQ.overall_grandmean*shirt 
 										 + rel.length_grandmean*shirt + AAQ_ambivalence_grandmean*shirt 
 										 + AAQ_avoidance_grandmean*shirt + control*shirt + stress.2.cen*shirt 
@@ -161,16 +151,20 @@ summary(final <-lmer (perceived.sleep.quality ~ shirt	+ shirt*condition
 										 + stress.2.cen + (1 + shirt| participant.id), data=data))
 confint(final, method="boot", nsim = 1000)
 
-#simple slope for order predicting sleep quality in SOM-U
+#simple slope for order predicting sleep quality 
 data$condition2 <- ifelse(data$condition == 0, 1, 0)
 summary(condition2 <- lmer (perceived.sleep.quality ~ shirt + condition2 + condition2*shirt 
 											+	(1 + shirt| participant.id), data=data))
 confint(condition2, method="boot", nsim = 1000)
+#clean up
+rm(condition2, final)
 #-----------------------------------------#
 
 #Three Level Model (Couple as a Third Level)
 
 #add couple ID
+#sample 2 women have IDs in the 100's and men have IDs in the 200's but the second two digits match for couples
+#Subtract 100 from men's IDs and their ID will match their female partner's ID
 data$couple.id <- ifelse(data$participant.id > 199 & data$participant.id < 300, data$participant.id-100, 
 												 data$participant.id)
 
@@ -178,18 +172,13 @@ data$couple.id <- ifelse(data$participant.id > 199 & data$participant.id < 300, 
 options(digits=10)
 summary(lmer (sleep.efficiency ~ shirt +
 								(1 + shirt | participant.id) + 	(1 | couple.id), data=data))
-#ICC Calculation
+#ICC Calculation Sleep Efficiency
 summary(lmer (sleep.efficiency ~ 1 +
 								(1 + shirt | participant.id) + 	(1 | couple.id), data=data))
 #ICC = random effect of intercept variance at level 3 / (random intercept variance at level 3 + random intercept variance at level 2 + residual)
 #ICC is zero
 
-#Sleep quality predicted from scent type 
-summary(initial <- lmer (perceived.sleep.quality ~ shirt	+ (1 + shirt | participant.id) 
-												 + (1 | couple.id), data=data))
-confint(initial, method="boot", nsim = 1000)
-
-#ICC calculation
+#ICC calculation Sleep Quality
 summary(lmer (perceived.sleep.quality ~ 
 								(1 + shirt | participant.id) + (1 | couple.id), data=data))
 #ICC = random effect of intercept variance at level 3 / (random intercept variance at level 3 + random intercept variance at level 2 + residual)
@@ -198,12 +187,13 @@ summary(lmer (perceived.sleep.quality ~
 #-----------------------------------------#
 
 #Results Removing Sample 1 Data 
-#exclude sample 1
+#exclude sample 1 (sample 1 participants have two digit IDs)
 nosample1 <- subset(data, participant.id>99)
 #Sleep Efficiency predicted from scent type 
 summary(no1 <- lmer (sleep.efficiency ~ shirt	+ (1 + shirt | participant.id), 
 										 data=nosample1))
 confint(no1, method="boot", nsim = 1000)
+rm(no1)
 #-----------------------------------------#
 
 #Further Sleep Outcomes (Onset Latency & WASO)	
@@ -222,24 +212,22 @@ d2 <- data %>%
 data_components <- merge(d1,d2,by=c("participant.id"))
 rm(d1,d2)
 
-data_components$onset.latency.other <-rowMeans(data_Winz_2[,6:7], na.rm=TRUE)
-data_components$onset.latency.partner <-rowMeans(data_Winz_2[,8:9], na.rm=TRUE)
+data_components$onset.latency.other <-rowMeans(data_components[,6:7], na.rm=TRUE)
+data_components$onset.latency.partner <-rowMeans(data_components[,8:9], na.rm=TRUE)
 colMeans(data_components[,10:11], na.rm=TRUE)
 #preform one sample paired t-test
-t.test(data_components$onset.latency.other, data_Winz_2$onset.latency.partner,
+t.test(data_components$onset.latency.other, data_components$onset.latency.partner,
 			 paired = TRUE)
 
-data_components$WASO.other <-rowMeans(data_Winz_2[,2:3], na.rm=TRUE)
-data_components$WASO.partner <-rowMeans(data_Winz_2[,4:5], na.rm=TRUE)
+data_components$WASO.other <-rowMeans(data_components[,2:3], na.rm=TRUE)
+data_components$WASO.partner <-rowMeans(data_components[,4:5], na.rm=TRUE)
 colMeans(data_components[,12:13], na.rm=TRUE)
 #preform one sample paired t-test
 t.test(data_components$WASO.other, data_components$WASO.partner,
 			 paired = TRUE)
 rm(data_components)
 
-#-----------------------------------------#
-
-#HLM model
+#HLM analysis for onset latency
 summary (onset.latency <- lmer (onset.latency ~ shirt
 																+ (1 + shirt| participant.id), data=data))
 confint(onset.latency, method="boot", nsim = 1000)
@@ -249,29 +237,26 @@ Upper <- mean(data$onset.latency, na.rm=TRUE)+6*sd(data$onset.latency,
 																									 na.rm=TRUE)
 data$onset.latency.nooutliers <- ifelse(data$onset.latency < Upper,
 																				data$onset.latency, NA)
-rm(Upper)
 
 summary (onset.latency.nooutliers <- lmer (onset.latency.nooutliers ~ shirt
 																					 + (1 + shirt| participant.id), data=data))
 confint(onset.latency.nooutliers ,method="boot", nsim = 1000)
 
-rm(onset.latency, onset.latency.nooutliers)
+rm(onset.latency, onset.latency.nooutliers, Upper)
 
-#HLM model WASO
-summary (WASO <- lmer (WASO ~ shirt
-											 + (1 + shirt| participant.id), data=data))
+#HLM analysis for WASO
+summary (WASO <- lmer (WASO ~ shirt + (1 + shirt| participant.id), data=data))
 confint(WASO, method="boot", nsim = 1000)
 
 ##remove extreme outlier
 Upper.WASO <- mean(data$WASO, na.rm=TRUE)+6*sd(data$WASO, na.rm=TRUE)
 data$WASO.nooutliers <- ifelse(data$WASO < Upper.WASO,
 															 data$WASO, NA)
-rm(Upper.WASO)
 
 summary (WASO.nooutliers <- lmer (WASO.nooutliers ~ shirt
 																	+ (1 + shirt| participant.id), data=data))
 confint(WASO.nooutliers, method="boot", nsim = 1000)
-rm(WASO, WASO.nooutliers)
+rm(WASO, WASO.nooutliers, Upper.WASO)
 #-----------------------------------------#
 
 #Distribution of Relationship Quality & Attachment Style Data

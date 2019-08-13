@@ -1,4 +1,8 @@
+#This document is code used to generate numbers reported in
+#The Scent of a Good Night’s Sleep: Olfactory Cues of a Romantic Partner Increase Sleep Efficiency
+
 #load packages
+library(effsize)	
 library(lme4)
 library(lmerTest)
 library(psych)
@@ -120,15 +124,14 @@ rm(tbl, newFunc, Sample.Differences)
 
 ##Main Analyses Described in Results Section##
 
-#Sleep Efficiency Means
+#Sleep Efficiency Means & SDs
 colMeans(data_wide[,10:11], na.rm=TRUE)
-
-#Perceived Sleep Efficiency SDs
-SEO <- sd(data_wide$sleep.efficiency.other, na.rm=TRUE)
-SEP <- sd(data_wide$sleep.efficiency.partner, na.rm=TRUE)
+sd(data_wide$sleep.efficiency.other, na.rm=TRUE)
+sd(data_wide$sleep.efficiency.partner, na.rm=TRUE)
 
 #Calculate Cohen's d 
-(88.02926-85.34865)/((SEO + SEP)/2)
+cohen.d(data_wide$sleep.efficiency.partner, data_wide$sleep.efficiency.other, na.rm=TRUE, 
+				pooled = TRUE, paried = TRUE)
 
 #Initial Sleep Efficiency Model & 95% CI
 summary(sleep.efficiency <- lmer (sleep.efficiency ~ shirt	+ (1 + shirt | participant.id), data=data))
@@ -139,18 +142,43 @@ summary(final <-lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex*shir
 											 + (1 + shirt| participant.id), data=data))
 confint(final, method="boot", nsim = 1000)
 
+#ICC 
+summary(lmer (sleep.efficiency ~ 1 +
+								(1| participant.id), data=data))
+(19.55/(19.55+76.45))
+#0.20
+
+#exploring interactions
+#means for sleep efficiency separated by scent duration & scent
+data %>% group_by(shirt, scent.duration) %>% 
+	summarize(mean=mean(sleep.efficiency, na.rm=T), sd=sd(sleep.efficiency, na.rm=T))
+
+#simple slope for sleep efficiency by sex
+summary(sex <-lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex + sex*shirt +
+											(1 + shirt| participant.id), data=data))
+confint(sex, method="boot", nsim = 1000)
+
+data$sex.2 <- ifelse(data$sex == 0, 1, 0)
+summary(sex2 <- lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex.2 + sex.2*shirt + 
+												(1 + shirt| participant.id), data=data))
+confint(sex2, method="boot", nsim = 1000)
+rm(sex,sex2)
+
+#means for sleep efficiency separated by sex & scent
+data %>% group_by(shirt, sex) %>% 
+	summarize(mean=mean(sleep.efficiency, na.rm=T))
+
 #clean up environment
 rm(sleep.efficiency,SEO,SEP,final)
 
-#Perceived Sleep Quality Means
+#Perceived Sleep Quality Means & SDs
 colMeans(data_wide[,12:13], na.rm=TRUE)
-
-#Perceived Sleep Quality SDs
-SQO <- sd(data_wide$perceived.sleep.quality.other, na.rm=TRUE)
-SQP <- sd(data_wide$perceived.sleep.quality.partner, na.rm=TRUE)
+sd(data_wide$perceived.sleep.quality.other, na.rm=TRUE)
+sd(data_wide$perceived.sleep.quality.partner, na.rm=TRUE)
 
 #Calculate Cohen's d 
-(4.737013-4.599838)/((SQO + SQP)/2)
+cohen.d(data_wide$perceived.sleep.quality.partner, data_wide$perceived.sleep.quality.other, 
+				na.rm=TRUE, pooled = TRUE, paried = TRUE)
 
 #Intial Perceived Sleep Quality Model & 95% CI
 summary(perceived.sleep.quality <- lmer (perceived.sleep.quality ~ shirt 
