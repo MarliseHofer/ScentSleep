@@ -17,7 +17,7 @@ This repository contains 5 folders associated with the paper "The Scent of a Goo
 5. [Data and Code](https://github.com/MarliseHofer/ScentSleep/tree/master/Data%26Code)
   - contains two datafiles (one wide and one long form)
   - one R script with calculations reported in the manuscript
-  - one R script with calculations reported in the supplementary materials
+  - two R scripts with calculations reported in the supplementary materials
   - one R script with code for an internal meta-analysis
 These material are representative of what was given to participants across all samples. However, questions & materials were slightly altered across the three samples. For example:
   1) In sample 2, men and women functioned as both sleepers and scent donors. In sample 2, all couples had three lab sessions corresponding to Session 1- Men, Session 2 - Men & Session 1 - Women (combined into one session), and Session 2 - Women.
