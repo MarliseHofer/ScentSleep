@@ -62,22 +62,38 @@ summary(st <- lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex*shirt
 							+ stress.2.grandcen*shirt + (1 + shirt| participant.id), data=data))
 confint(st, method="boot", nsim = 1000)
 
-#clean up
-rm(st, order, RQ, RL, sex, attachment, control, weeknight, duration, stress)
-
-#all predictors simultaneously (backwards stepwise method)
-summary(lmer (sleep.efficiency ~ shirt  + scent.duration*shirt + night +
-										 +	sex*shirt + shirt*condition  + RQ.overall_grandmean*shirt 
-										 + rel.length_grandmean*shirt + AAQ_ambivalence_grandmean*shirt 
-										 + AAQ_avoidance_grandmean*shirt + control*shirt + stress.2.cen*shirt 
-										 + stress.2.grandcen*shirt + (1 + shirt| participant.id), data=data))
-
-#reduced model
-summary(final <-lmer (sleep.efficiency ~ shirt  + scent.duration*shirt 
-											+	sex*shirt + rel.length_grandmean*shirt + control*shirt  
-										 + (1 + shirt| participant.id), data=data))
+#Final model
+summary(final <- lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex*shirt 
+										+ (1 + shirt| participant.id), data=data))
 confint(final, method="boot", nsim = 1000)
 
+#clean up
+rm(final, st, order, RQ, RL, sex, attachment, control, weeknight, duration, stress)
+
+#exploring interactions
+#means for sleep efficiency separated by scent duration & scent
+data %>% group_by(shirt, scent.duration) %>% 
+	summarize(mean=mean(sleep.efficiency, na.rm=T), sd=sd(sleep.efficiency, na.rm=T))
+
+#simple slope for sleep efficiency by sex
+summary(sex <-lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex + sex*shirt +
+											(1 + shirt| participant.id), data=data))
+confint(sex, method="boot", nsim = 1000)
+
+data$sex.2 <- ifelse(data$sex == 0, 1, 0)
+summary(sex2 <- lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex.2 + sex.2*shirt + 
+												(1 + shirt| participant.id), data=data))
+confint(sex2, method="boot", nsim = 1000)
+rm(sex,sex2)
+
+#means for sleep efficiency separated by sex & scent
+data %>% group_by(shirt, sex) %>% 
+	summarize(mean=mean(sleep.efficiency, na.rm=T))
+
+#clean up environment
+rm(sex,sex2)
+
+#-----------------------------------------#
 #Results from each model tested to reach final percieved sleep quality model
 
 #stress at level 1 (daily level)
@@ -137,8 +153,29 @@ summary(stress2 <-lmer (perceived.sleep.quality ~ shirt + stress.2.cen + night_c
 							+ stress.2.grandcen*shirt + (1 + shirt| participant.id), data=data))
 confint(stress2, method="boot", nsim = 1000)
 
+#stress at level 2 (trait level)
+summary(final <-lmer (perceived.sleep.quality ~ shirt + stress.2.cen + night_cen
+												+ (1 + shirt| participant.id), data=data))
+confint(final, method="boot", nsim = 1000)
+
 #clean up
-rm(order, RQ, RL, sex, attachment, control, weeknight, duration, stress, stress2)
+rm(final, order, RQ, RL, sex, attachment, control, weeknight, duration, stress, stress2)
+
+#-----------------------------------------#
+#all predictors simultaneously (backwards stepwise method)
+summary(lmer (sleep.efficiency ~ shirt  + scent.duration*shirt + night +
+								+	sex*shirt + shirt*condition  + RQ.overall_grandmean*shirt 
+							+ rel.length_grandmean*shirt + AAQ_ambivalence_grandmean*shirt 
+							+ AAQ_avoidance_grandmean*shirt + control*shirt + stress.2.cen*shirt 
+							+ stress.2.grandcen*shirt + (1 + shirt| participant.id), data=data))
+
+#reduced model
+summary(final <-lmer (sleep.efficiency ~ shirt  + scent.duration*shirt 
+											+	sex*shirt + rel.length_grandmean*shirt + control*shirt  
+											+ (1 + shirt| participant.id), data=data))
+confint(final, method="boot", nsim = 1000)
+#clean up
+rm(final)
 
 #all predictors simultanioulsy (backwards stepwise method)
 summary(lmer (perceived.sleep.quality ~ shirt  + scent.age*shirt + 
@@ -158,8 +195,30 @@ summary(condition2 <- lmer (perceived.sleep.quality ~ shirt + condition2 + condi
 confint(condition2, method="boot", nsim = 1000)
 #clean up
 rm(condition2, final)
-#-----------------------------------------#
 
+
+#-----------------------------------------#
+#Final Model Including all Predictors Simultaneously
+summary(SimultaneousSE <- lmer (sleep.efficiency ~ shirt  + night + stress.2.cen
+											 + stress.2.grandcen +	sex + rel.length_grandmean 
+											 + RQ.overall_grandmean + AAQ_ambivalence_grandmean
+											 + AAQ_avoidance_grandmean + control + condition 
+											 + (1 + shirt| participant.id), data=data))
+
+confint(SimultaneousSE, method="boot", nsim = 1000)
+
+summary(SimultaneousPS <- lmer (perceived.sleep.quality ~ shirt  + night + stress.2.cen
+											 + stress.2.grandcen +	sex + rel.length_grandmean 
+											 + RQ.overall_grandmean + AAQ_ambivalence_grandmean
+											 + AAQ_avoidance_grandmean + control + condition 
+											 + (1 + shirt| participant.id), data=data))
+
+confint(SimultaneousPS, method="boot", nsim = 1000)
+
+#clean up
+rm(SimultaneousSE, SimultaneousPS)
+
+#-----------------------------------------#
 #Three Level Model (Couple as a Third Level)
 
 #add couple ID

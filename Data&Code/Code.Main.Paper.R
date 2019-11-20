@@ -138,38 +138,17 @@ summary(sleep.efficiency <- lmer (sleep.efficiency ~ shirt	+ (1 + shirt | partic
 confint(sleep.efficiency, method="boot", nsim = 1000)
 
 #Final Sleep Efficiency Model & 95% CI
-summary(final <-lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex*shirt 
+summary(final <-lmer (sleep.efficiency ~ shirt + sex
 											 + (1 + shirt| participant.id), data=data))
 confint(final, method="boot", nsim = 1000)
 
 #ICC 
-summary(lmer (sleep.efficiency ~ 1 +
-								(1| participant.id), data=data))
+summary(lmer (sleep.efficiency ~ 1 + (1| participant.id), data=data))
 (19.55/(19.55+76.45))
 #0.20
 
-#exploring interactions
-#means for sleep efficiency separated by scent duration & scent
-data %>% group_by(shirt, scent.duration) %>% 
-	summarize(mean=mean(sleep.efficiency, na.rm=T), sd=sd(sleep.efficiency, na.rm=T))
-
-#simple slope for sleep efficiency by sex
-summary(sex <-lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex + sex*shirt +
-											(1 + shirt| participant.id), data=data))
-confint(sex, method="boot", nsim = 1000)
-
-data$sex.2 <- ifelse(data$sex == 0, 1, 0)
-summary(sex2 <- lmer (sleep.efficiency ~ shirt + scent.duration*shirt + sex.2 + sex.2*shirt + 
-												(1 + shirt| participant.id), data=data))
-confint(sex2, method="boot", nsim = 1000)
-rm(sex,sex2)
-
-#means for sleep efficiency separated by sex & scent
-data %>% group_by(shirt, sex) %>% 
-	summarize(mean=mean(sleep.efficiency, na.rm=T))
-
 #clean up environment
-rm(sleep.efficiency,SEO,SEP,final)
+rm(sleep.efficiency,final)
 
 #Perceived Sleep Quality Means & SDs
 colMeans(data_wide[,12:13], na.rm=TRUE)
@@ -197,7 +176,7 @@ summary(lmer (perceived.sleep.quality ~ 1 +
 #0.19
 
 #clean up environment
-rm(SQO,SQP, perceived.sleep.quality, perceived.sleep.quality.2)
+rm(final, perceived.sleep.quality, perceived.sleep.quality.2)
 
 #Correlation between perceived sleep quality and sleep efficiency
 #accounting for dependant nature of the data
