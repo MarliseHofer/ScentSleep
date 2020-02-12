@@ -1,11 +1,12 @@
 # ScentSleep
 Effect of partner's scent on sleep
 
+This repository contains 5 folders associated with the paper "The Scent of a Good Night’s Sleep: Olfactory Cues of a Romantic Partner Improve Sleep" by Marlise K. Hofer and Frances S. Chen
+
 These materials are representative of what was given to participants across all samples. However, questions & materials were slightly altered across the three samples. For example:
   1) In sample 2, men and women functioned as both sleepers and scent donors. In sample 2, all couples had three lab sessions corresponding to Session 1- Men, Session 2 - Men & Session 1 - Women (combined into one session), and Session 2 - Women.
   2) In sample 3, stranger scents were created by male participants. To accomplish this, men were asked to to create two worn shirts (for a total of 48 hours of shirt wearing).
 
-This repository contains 5 folders associated with the paper "The Scent of a Good Night’s Sleep: Olfactory Cues of a Romantic Partner Improve Sleep" by Marlise K. Hofer and Frances S. Chen
 1. [Session One - Men](https://github.com/MarliseHofer/ScentSleep/tree/master/Session%201%20%20-%20Men)
   - contains a protocol and take home instructions for shirt wearing
   - this session involved training on scent collection protocol
